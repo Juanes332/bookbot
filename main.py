@@ -2,10 +2,13 @@ from collections import Counter
 
 
 def sort_on(char_dict):
+    "Definicion para ordenar dicts"
     return char_dict["num"]
 
 
 def main():
+    "Generación del reporte del libro"
+
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
     print("--- Begin report of books/frankenstein.txt ---")
