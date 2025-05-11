@@ -1,37 +1,27 @@
-from collections import Counter
+import sys
+from stats import get_num_words, count_characters, sort_character_counts
 
 
-def sort_on(char_dict):
-    "Definicion para ordenar dicts"
-    return char_dict["num"]
+def get_book_text(path):
+    with open(path) as f:
+        return f.read()
 
 
 def main():
-    "Generación del reporte del libro"
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
 
-    with open("books/frankenstein.txt") as f:
-        file_contents = f.read()
-    print("--- Begin report of books/frankenstein.txt ---")
+    book_path = sys.argv[1]
+    text = get_book_text(book_path)
 
-    words = file_contents.lower().split()
-    words_number = len(words)
-    print(f"{words_number} words found in the document")
+    print(f"{get_num_words(text)} words found in the document")
 
-    text = file_contents.lower()
-    conteo = Counter(text)
+    char_counts = count_characters(text)
+    sorted_chars = sort_character_counts(char_counts)
 
-    character_counts = [
-        {"char": char, "num": count}
-        for char, count in conteo.items()
-        if char.isalpha()
-    ]
-
-    character_counts.sort(reverse=True, key=sort_on)
-
-    for item in character_counts:
-        print(f"The '{item['char']}' character was found {item['num']} times")
-
-    print("--- End report ---")
+    for item in sorted_chars:
+        print(f"{item['char']}: {item['num']}")
 
 
 if __name__ == "__main__":
